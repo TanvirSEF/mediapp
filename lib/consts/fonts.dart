@@ -15,12 +15,12 @@ class AppSizes {
 }
 
 class AppStyles {
-  static normal(
-      {String? title,
+  static normal( 
+      {String?title,
       Color? color = Colors.black,
       double? size = 14,
       TextAlign alignment = TextAlign.left}) {
-    return title!.text
+    return title?.text
         .size(size)
         .color(color)
         .fontFamily(AppFonts.nunito)

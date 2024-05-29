@@ -1,6 +1,7 @@
 import 'package:flutter_doctime/consts/consts.dart';
 import 'package:flutter_doctime/consts/lists.dart';
 import 'package:flutter_doctime/controllers/auth_controller.dart';
+import 'package:flutter_doctime/controllers/setting_controller.dart';
 import 'package:flutter_doctime/views/login_view/login_view.dart';
 import 'package:get/get.dart';
 
@@ -9,6 +10,7 @@ class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var controller = Get.put(SettingController());
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -18,38 +20,44 @@ class SettingsView extends StatelessWidget {
             size: AppSizes.size18),
         backgroundColor: AppColors.blueColor,
       ),
-      body: Column(
-        children: [
-          ListTile(
-            leading: CircleAvatar(
-              child: Image.asset(AppAssets.imgsign),
-            ),
-            title: AppStyles.bold(title: "Username"),
-            subtitle: AppStyles.normal(title: "user_email@gmail.com"),
-          ),
-          const Divider(),
-          10.heightBox,
-          ListView(
-            shrinkWrap: true,
-            children: List.generate(
-                settingsList.length,
-                (index) => ListTile(
-                      onTap: () async {
-                        if (index == 2) {
-                          AuthController().signout();
-                          Get.offAll(() => const LoginView());
-                        }
-                      },
-                      leading: Icon(
-                        settingsListIcon[index],
-                        color: AppColors.blueColor,
-                      ),
-                      title: AppStyles.bold(
-                        title: settingsList[index],
-                      ),
-                    )),
-          ),
-        ],
+      body: Obx(
+        () => controller.isLoading.value
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : Column(
+                children: [
+                  ListTile(
+                    leading: CircleAvatar(
+                      child: Image.asset(AppAssets.imgsign),
+                    ),
+                    title: AppStyles.bold(title: controller.username.value),
+                    subtitle: AppStyles.normal(title: controller.email.value),
+                  ),
+                  const Divider(),
+                  10.heightBox,
+                  ListView(
+                    shrinkWrap: true,
+                    children: List.generate(
+                        settingsList.length,
+                        (index) => ListTile(
+                              onTap: () async {
+                                if (index == 2) {
+                                  AuthController().signout();
+                                  Get.offAll(() => const LoginView());
+                                }
+                              },
+                              leading: Icon(
+                                settingsListIcon[index],
+                                color: AppColors.blueColor,
+                              ),
+                              title: AppStyles.bold(
+                                title: settingsList[index],
+                              ),
+                            )),
+                  ),
+                ],
+              ),
       ),
     );
   }

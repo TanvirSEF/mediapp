@@ -40,19 +40,28 @@ class SignupView extends StatelessWidget {
                   child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    CustomTextfield(hint: AppStrings.fullname, textController: controller.fullnameController,),
+                    CustomTextfield(
+                      hint: AppStrings.fullname,
+                      textController: controller.fullnameController,
+                    ),
                     10.heightBox,
-                    CustomTextfield(hint: AppStrings.email, textController: controller.emailController,),
+                    CustomTextfield(
+                      hint: AppStrings.email,
+                      textController: controller.emailController,
+                    ),
                     10.heightBox,
-                    CustomTextfield(hint: AppStrings.password,textController: controller.passwordController,),
+                    CustomTextfield(
+                      hint: AppStrings.password,
+                      textController: controller.passwordController,
+                    ),
                     20.heightBox,
                     CustomButton(
                       buttonText: AppStrings.signup,
-                      onTap: () async{
-                       await controller.signupUser();
-                       if(controller.userCredential !=null){
-                         Get.offAll(()=>const Homee());
-                       }
+                      onTap: () async {
+                        await controller.signupUser();
+                        if (controller.userCredential != null) {
+                          Get.offAll(() => const Homee());
+                        }
                       },
                     ),
                     20.heightBox,
@@ -65,7 +74,8 @@ class SignupView extends StatelessWidget {
                           onTap: () {
                             Get.back();
                           },
-                          child:  AppStyles.bold(title: AppStrings.login, size: AppSizes.size20),
+                          child: AppStyles.bold(
+                              title: AppStrings.login, size: AppSizes.size20),
                         ),
                       ],
                     )
