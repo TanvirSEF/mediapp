@@ -72,7 +72,7 @@ class Appointment extends StatelessWidget {
               : CustomButton(
                   buttonText: "Book an appointment",
                   onTap: () async {
-                    await controller.bookAppointment(docID, context);
+                    await controller.bookAppointment(docID, docName, context);
                   }),
         ),
       ),

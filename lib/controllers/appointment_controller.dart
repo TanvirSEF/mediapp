@@ -12,7 +12,7 @@ class AppointmentController extends GetxController {
   var appointmentNameController = TextEditingController();
   var appointmentDetailsController = TextEditingController();
 
-  bookAppointment(String docId, context) async {
+  bookAppointment(String docID, String docName, context) async {
     isLoading(true);
 
     var store = FirebaseFirestore.instance.collection('appointments').doc();
@@ -23,10 +23,15 @@ class AppointmentController extends GetxController {
       'appPhone': appointmentNumberController.text,
       'appName': appointmentNameController.text,
       'appMsg': appointmentDetailsController.text,
-      'appWith': docId,
+      'appWith': docID,
+      'appWithDoctor': docName,
     });
     isLoading(false);
     VxToast.show(context, msg: "Appointment is booked successfully!");
     Get.back();
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getAppointments() {
+    return FirebaseFirestore.instance.collection('appointments').get();
   }
 }
