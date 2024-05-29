@@ -154,7 +154,10 @@ class DoctorsProfileView extends StatelessWidget {
         child: CustomButton(
           buttonText: "Book an appointment",
           onTap: () {
-            Get.to(() => const Appointment());
+            Get.to(() => Appointment(
+                  docID: doc['docID'],
+                  docName: doc['docName'],
+                ));
           },
         ),
       ),
