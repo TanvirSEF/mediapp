@@ -36,7 +36,9 @@ class AppointmentDetails extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       onTap: () {
-                        Get.to(() => const AppointmentDetailView());
+                        Get.to(() => AppointmentDetailView(
+                              doc: data[index],
+                            ));
                       },
                       leading: CircleAvatar(
                         child: Image.asset(AppAssets.imgsign),
