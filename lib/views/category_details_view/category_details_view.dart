@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_doctime/consts/consts.dart';
+import 'package:flutter_doctime/views/doctors_profile_view/doctors_profile_view.dart';
+import 'package:get/get.dart';
 
 class CategoryDetailsView extends StatelessWidget {
   final String catName;
@@ -11,9 +13,7 @@ class CategoryDetailsView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.blueColor,
         title: AppStyles.bold(
-            title: "Category Name",
-            color: AppColors.whiteColor,
-            size: AppSizes.size18),
+            title: catName, color: AppColors.whiteColor, size: AppSizes.size18),
       ),
       body: FutureBuilder<QuerySnapshot>(
         future: FirebaseFirestore.instance
@@ -26,6 +26,7 @@ class CategoryDetailsView extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else {
+            var data = snapshot.data?.docs;
             return Padding(
               padding: const EdgeInsets.all(10.0),
               child: GridView.builder(
@@ -35,7 +36,7 @@ class CategoryDetailsView extends StatelessWidget {
                   crossAxisSpacing: 8,
                   mainAxisSpacing: 8,
                 ),
-                itemCount: 10,
+                itemCount: data?.length ?? 0,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     clipBehavior: Clip.hardEdge,
@@ -61,19 +62,22 @@ class CategoryDetailsView extends StatelessWidget {
                             ),
                           ),
                           5.heightBox,
-                          AppStyles.normal(title: "Doctor Name"),
+                          AppStyles.normal(title: data![index]['docName']),
                           VxRating(
                             selectionColor: AppColors.yellowColor,
                             onRatingUpdate: (value) {},
                             count: 5,
                             maxRating: 5,
-                            value: 4,
+                            value: double.parse(
+                                data[index]['docRating'].toString()),
                             stepInt: true,
                           ),
                         ],
                       ),
                     ),
-                  );
+                  ).onTap(() {
+                    Get.to(() => DoctorsProfileView(doc: data[index]));
+                  });
                 },
               ),
             );

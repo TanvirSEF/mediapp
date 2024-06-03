@@ -31,7 +31,17 @@ class AppointmentController extends GetxController {
     Get.back();
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getAppointments() {
-    return FirebaseFirestore.instance.collection('appointments').get();
+  Future<QuerySnapshot<Map<String, dynamic>>> getAppointments(bool isDoctor) {
+    if (isDoctor) {
+      return FirebaseFirestore.instance
+          .collection('appointments')
+          .where('appWith', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+          .get();
+    } else {
+      return FirebaseFirestore.instance
+          .collection('appointments')
+          .where('appBy', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+          .get();
+    }
   }
 }

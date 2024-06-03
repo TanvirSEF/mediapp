@@ -2,6 +2,7 @@ import 'package:flutter_doctime/controllers/auth_controller.dart';
 import 'package:flutter_doctime/res/components/custom_button.dart';
 import 'package:flutter_doctime/res/components/custom_textfield.dart';
 import 'package:flutter_doctime/consts/consts.dart';
+import 'package:flutter_doctime/views/appointment_details/appointment_details.dart';
 import 'package:flutter_doctime/views/home/homee.dart';
 import 'package:flutter_doctime/views/signup_view/signup_view.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,7 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
+  var isDoctor = false;
   @override
   Widget build(BuildContext context) {
     var controller = Get.put(AuthController());
@@ -51,6 +53,16 @@ class _LoginViewState extends State<LoginView> {
                       hint: AppStrings.password,
                       textController: controller.passwordController,
                     ),
+                    10.heightBox,
+                    SwitchListTile(
+                      value: isDoctor,
+                      onChanged: (newValue) {
+                        setState(() {
+                          isDoctor = newValue;
+                        });
+                      },
+                      title: "Sign in as a doctor".text.make(),
+                    ),
                     20.heightBox,
                     Align(
                         alignment: Alignment.centerRight,
@@ -62,7 +74,11 @@ class _LoginViewState extends State<LoginView> {
                       onTap: () async {
                         await controller.loginUser();
                         if (controller.userCredential != null) {
-                          Get.to(() => const Homee());
+                          if (isDoctor) {
+                            Get.to(() => const AppointmentDetails());
+                          }else{
+                            Get.to(() => const Homee());
+                          }
                         }
                       },
                     ),

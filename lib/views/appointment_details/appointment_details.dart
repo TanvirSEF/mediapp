@@ -6,7 +6,8 @@ import 'package:get/get.dart';
 import '../../consts/consts.dart';
 
 class AppointmentDetails extends StatelessWidget {
-  const AppointmentDetails({super.key});
+  final bool isDoctor;
+  const AppointmentDetails({super.key, this.isDoctor = false});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class AppointmentDetails extends StatelessWidget {
             size: AppSizes.size18),
       ),
       body: FutureBuilder<QuerySnapshot>(
-          future: controller.getAppointments(),
+          future: controller.getAppointments(isDoctor),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
@@ -43,8 +44,9 @@ class AppointmentDetails extends StatelessWidget {
                       leading: CircleAvatar(
                         child: Image.asset(AppAssets.imgsign),
                       ),
-                      title:
-                          AppStyles.bold(title: data![index]['appWithDoctor']),
+                      title: AppStyles.bold(
+                          title: data![index]
+                              [isDoctor ? 'appWithDoctor' : 'appName']),
                       subtitle: AppStyles.normal(
                           title:
                               "${data[index]['appDay']} - ${data[index]['appTime']}",

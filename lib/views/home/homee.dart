@@ -2,7 +2,6 @@ import 'package:flutter_doctime/consts/consts.dart';
 import 'package:flutter_doctime/views/appointment_details/appointment_details.dart';
 import 'package:flutter_doctime/views/category_view/category_view.dart';
 import 'package:flutter_doctime/views/home/home.dart';
-import 'package:flutter_doctime/views/login_view/login_view.dart';
 import 'package:flutter_doctime/views/settings/settings_view.dart';
 
 class Homee extends StatefulWidget {
@@ -18,7 +17,6 @@ class _HomeeState extends State<Homee> {
     const Home(),
     const AppointmentDetails(),
     const CategoryView(),
-    const LoginView(),
     const SettingsView(),
   ];
   @override
@@ -48,7 +46,6 @@ class _HomeeState extends State<Homee> {
               icon: Icon(Icons.calendar_month), label: "Appointments"),
           BottomNavigationBarItem(
               icon: Icon(Icons.category), label: "Category"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Doctor"),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Setting"),
         ],
       ),
