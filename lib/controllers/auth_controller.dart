@@ -11,6 +11,15 @@ class AuthController extends GetxController {
   var fullnameController = TextEditingController();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
+
+  //Doctors
+  var aboutController = TextEditingController();
+  var addressController = TextEditingController();
+  var servicesController = TextEditingController();
+  var timingController = TextEditingController();
+  var phoneController = TextEditingController();
+  var categoryController = TextEditingController();
+
   UserCredential? userCredential;
 
   isUserAlreadyLoggedIn() async {
@@ -38,18 +47,36 @@ class AuthController extends GetxController {
         email: emailController.text, password: passwordController.text);
   }
 
-  signupUser() async {
+  signupUser(bool isDoctor) async {
     userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text, password: passwordController.text);
     if (userCredential != null) {
       await storeUserData(userCredential!.user!.uid, fullnameController.text,
-          emailController.text);
+          emailController.text, isDoctor);
     }
   }
 
-  storeUserData(String uid, String fullname, String email) async {
-    var store = FirebaseFirestore.instance.collection("users").doc(uid);
-    await store.set({'fullname': fullname, 'email': email});
+  storeUserData(
+      String uid, String fullname, String email, bool isDoctor) async {
+    var store = FirebaseFirestore.instance
+        .collection(isDoctor ? 'doctors' : "users")
+        .doc(uid);
+    if (isDoctor) {
+      await store.set({
+        'docAbout': aboutController.text,
+        'docService': servicesController.text,
+        'docCategory': categoryController.text,
+        'docTiming': timingController.text,
+        'docAddress': addressController.text,
+        'docName': fullname,
+        'docPhone': phoneController.text,
+        'docID': FirebaseAuth.instance.currentUser?.uid,
+        'docRating': 1,
+        'docEmail': email,
+      });
+    } else {
+      await store.set({'fullname': fullname, 'email': email});
+    }
   }
 
   signout() async {

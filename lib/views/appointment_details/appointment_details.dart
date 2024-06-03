@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_doctime/controllers/appointment_controller.dart';
+import 'package:flutter_doctime/controllers/auth_controller.dart';
 import 'package:flutter_doctime/views/appointment_detail_view/appointment_detail_view.dart';
 import 'package:get/get.dart';
 
@@ -19,6 +20,13 @@ class AppointmentDetails extends StatelessWidget {
             title: "Appointments",
             color: AppColors.whiteColor,
             size: AppSizes.size18),
+        actions: [
+          IconButton(
+              onPressed: () {
+                AuthController().signout();
+              },
+              icon: const Icon(Icons.power_settings_new_rounded))
+        ],
       ),
       body: FutureBuilder<QuerySnapshot>(
           future: controller.getAppointments(isDoctor),
@@ -46,7 +54,7 @@ class AppointmentDetails extends StatelessWidget {
                       ),
                       title: AppStyles.bold(
                           title: data![index]
-                              [isDoctor ? 'appWithDoctor' : 'appName']),
+                              [!isDoctor ? 'appWithDoctor' : 'appName']),
                       subtitle: AppStyles.normal(
                           title:
                               "${data[index]['appDay']} - ${data[index]['appTime']}",
